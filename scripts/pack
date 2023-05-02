@@ -1,0 +1,21 @@
+#!/bin/bash
+
+name="merge"
+version="${1:-scm-1}"
+package="${name}-${version}"
+files=("${package}.rockspec" init.lua)
+
+echo "Preparing rock tarball..."
+
+mkdir "${package}/"
+cp "${files[@]}" "${package}/"
+tar cvzf "${package}.tar.gz" "${package}/"
+
+echo "Packing binary rock..."
+
+luarocks pack "${package}.rockspec"
+
+echo "Cleanig working directory..."
+
+rm -vrf "${package}/"
+rm -v "${package}.tar.gz"
